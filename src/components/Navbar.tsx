@@ -110,6 +110,7 @@ const ProductDetail: React.FC = () => {
               <div className="flex items-center space-x-4">
                 <span className="text-3xl font-bold text-gray-900">PKR {product.price.toLocaleString()}</span>
                 {product.originalPrice && (
+                  <span className="text-xl text-gray-500 line-through">PKR {product.originalPrice.toLocaleString()}</span>
                 )}
                 {product.discount && (
                   <span className="text-green-600 font-semibold">
