@@ -1,248 +1,185 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Heart, ShoppingBag, ArrowLeft, Check } from 'lucide-react';
-import { products } from '../data/products';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { products } from '../data/products';
 
-const ProductDetail: React.FC = () => {
-  const { id } = useParams();
+const Navbar: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const { state } = useCart();
   const navigate = useNavigate();
-  const { dispatch } = useCart();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [showAddedMessage, setShowAddedMessage] = useState(false);
 
-  const product = products.find(p => p.id === id);
+  const filteredSuggestions = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.style.toLowerCase().includes(searchQuery.toLowerCase())
+  ).slice(0, 5);
 
-  if (!product) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <button
-            onClick={() => navigate('/shop')}
-            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
-          >
-            Back to Shop
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const handleAddToCart = () => {
-    dispatch({
-      type: 'ADD_ITEM',
-      payload: product,
-    });
-
-    setShowAddedMessage(true);
-    setTimeout(() => setShowAddedMessage(false), 3000);
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setShowSuggestions(false);
+    }
   };
 
-  const handleBuyNow = () => {
-    handleAddToCart();
-    navigate('/cart');
+  const handleSuggestionClick = (productName: string) => {
+    setSearchQuery(productName);
+    setShowSuggestions(false);
+    navigate(`/shop?search=${encodeURIComponent(productName)}`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 hover:text-black mb-8 transition-colors duration-200"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Images */}
-          <div className="space-y-4">
-            {/* Main Image */}
-            <div className="relative overflow-hidden rounded-lg bg-white shadow-sm">
-              <img
-                src={product.images[selectedImageIndex]}
-                alt={product.name}
-                className="w-full h-96 lg:h-[500px] object-cover"
-              />
-              {product.isNew && (
-                <span className="absolute top-4 left-4 bg-black text-white text-sm px-3 py-1 rounded-full font-medium">
-                  New
-                </span>
-              )}
-              {product.discount && (
-                <span className="absolute top-4 right-4 bg-red-500 text-white text-sm px-3 py-1 rounded-full font-medium">
-                  {product.discount}% OFF
-                </span>
-              )}
+    <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">PS</span>
             </div>
+            <span className="font-bold text-xl text-gray-900">PremiumStep</span>
+          </Link>
 
-            {/* Thumbnail Images */}
-            {product.images.length > 1 && (
-              <div className="flex space-x-2">
-                {product.images.map((image, index) => (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link
+              to="/shop"
+              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
+            >
+              Shop
+            </Link>
+            <Link
+              to="/about"
+              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className="hidden md:block relative">
+            <form onSubmit={handleSearch} className="relative">
+              <input
+                type="text"
+                placeholder="Search shoes..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSuggestions(e.target.value.length > 0);
+                }}
+                onFocus={() => setShowSuggestions(searchQuery.length > 0)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            </form>
+
+            {/* Search Suggestions */}
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-50">
+                {filteredSuggestions.map((product) => (
                   <button
-                    key={index}
-                    onClick={() => setSelectedImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors duration-200 ${
-                      selectedImageIndex === index ? 'border-black' : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                    key={product.id}
+                    onClick={() => handleSuggestionClick(product.name)}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
                   >
-                    <img
-                      src={image}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="flex items-center space-x-3">
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="w-8 h-8 object-cover rounded"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-900">{product.name}</p>
+                        <p className="text-sm text-gray-500">PKR {product.price.toLocaleString()}</p>
+                      </div>
+                    </div>
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-6">
-            <div>
-              <p className="text-sm text-gray-500 mb-2 capitalize">{product.style} Shoes</p>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
-              
-              <div className="flex items-center space-x-4">
-                <span className="text-3xl font-bold text-gray-900">PKR {product.price.toLocaleString()}</span>
-                {product.originalPrice && (
-                  <span className="text-xl text-gray-500 line-through">PKR {product.originalPrice.toLocaleString()}</span>
-                )}
-                {product.discount && (
-                  <span className="text-green-600 font-semibold">
-                    Save {product.discount}%
-                  </span>
-                )}
-              </div>
-            </div>
+          {/* Cart and Mobile Menu */}
+          <div className="flex items-center space-x-4">
+            {/* Cart */}
+            <Link
+              to="/cart"
+              className="relative p-2 text-gray-700 hover:text-black transition-colors duration-200"
+            >
+              <ShoppingBag className="w-6 h-6" />
+              {state.items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {state.items.reduce((sum, item) => sum + item.quantity, 0)}
+                </span>
+              )}
+            </Link>
 
-            <div>
-              <p className="text-gray-600 leading-relaxed">{product.description}</p>
-            </div>
-
-            {/* Size Selection */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Size</h3>
-              <div className="grid grid-cols-5 gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`p-3 text-center border rounded-lg transition-colors duration-200 ${
-                      selectedSize === size
-                        ? 'border-black bg-black text-white'
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Color Selection */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Color</h3>
-              <div className="flex flex-wrap gap-2">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`px-4 py-2 border rounded-lg transition-colors duration-200 ${
-                      selectedColor === color
-                        ? 'border-black bg-black text-white'
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    {color}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Quantity */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Quantity</h3>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="px-4 py-2 font-semibold">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-2 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="space-y-4">
-              <div className="flex space-x-4">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!selectedSize || !selectedColor}
-                  className="flex-1 bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center space-x-2"
-                >
-                  <ShoppingBag className="w-5 h-5" />
-                  <span>Add to Cart</span>
-                </button>
-                
-                <button
-                  onClick={() => setIsWishlisted(!isWishlisted)}
-                  className={`p-3 border rounded-lg transition-colors duration-200 ${
-                    isWishlisted
-                      ? 'border-red-500 bg-red-50 text-red-500'
-                      : 'border-gray-300 hover:border-red-500 hover:text-red-500'
-                  }`}
-                >
-                  <Heart className={`w-6 h-6 ${isWishlisted ? 'fill-current' : ''}`} />
-                </button>
-              </div>
-
-              <button
-                onClick={handleBuyNow}
-                disabled={!selectedSize || !selectedColor}
-                className="w-full border-2 border-black text-black py-3 px-6 rounded-lg font-semibold hover:bg-black hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              >
-                Buy Now
-              </button>
-            </div>
-
-            {/* Added to Cart Message */}
-            {showAddedMessage && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center space-x-2 text-green-800">
-                <Check className="w-5 h-5" />
-                <span>Added to cart successfully!</span>
-              </div>
-            )}
-
-            {/* Product Features */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Product Features</h3>
-              <div className="space-y-2 text-sm text-gray-600">
-                <p>• Premium quality materials</p>
-                <p>• Comfortable all-day wear</p>
-                <p>• Durable construction</p>
-                <p>• Expert craftsmanship</p>
-                <p>• 30-day return policy</p>
-              </div>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-gray-700 hover:text-black transition-colors duration-200"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 py-4">
+            <div className="space-y-4">
+              {/* Mobile Search */}
+              <form onSubmit={handleSearch} className="relative">
+                <input
+                  type="text"
+                  placeholder="Search shoes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              </form>
+
+              {/* Mobile Navigation Links */}
+              <div className="space-y-2">
+                <Link
+                  to="/shop"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
+                >
+                  Shop
+                </Link>
+                <Link
+                  to="/about"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
+                >
+                  Contact
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
 
-export default ProductDetail;
+export default Navbar;
