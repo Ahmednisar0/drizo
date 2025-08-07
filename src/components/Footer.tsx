@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link'; // ✅ Correct import for Next.js
 import { Instagram, Facebook, Twitter, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -8,7 +10,6 @@ const Footer: React.FC = () => {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
-      // Handle newsletter subscription
       alert('Thank you for subscribing to our newsletter!');
       setEmail('');
     }
@@ -35,19 +36,19 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900">Quick Links</h3>
             <div className="space-y-2">
-              <Link to="/shop?style=formal" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
+              <Link href="/shop?style=formal" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
                 Formal Shoes
               </Link>
-              <Link to="/shop?style=casual" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
+              <Link href="/shop?style=casual" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
                 Casual Shoes
               </Link>
-              <Link to="/shop?style=sports" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
+              <Link href="/shop?style=sports" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
                 Sports Shoes
               </Link>
-              <Link to="/about" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
+              <Link href="/about" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
                 About Us
               </Link>
-              <Link to="/contact" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
+              <Link href="/contact" className="block text-gray-600 hover:text-black text-sm transition-colors duration-200">
                 Contact
               </Link>
             </div>
@@ -102,7 +103,7 @@ const Footer: React.FC = () => {
           <p className="text-gray-600 text-sm">
             © 2025 PremiumStep. All rights reserved.
           </p>
-          
+
           {/* Social Links */}
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <a href="#" className="text-gray-400 hover:text-black transition-colors duration-200">

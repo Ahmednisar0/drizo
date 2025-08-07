@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Product } from '../types/Product';
 
 interface ProductCardProps {
@@ -11,14 +13,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
       {/* Product Image */}
       <div className="relative overflow-hidden">
-        <Link to={`/product/${product.id}`}>
+        <Link href={`/product/${product.id}`}>
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
           />
         </Link>
-        
+
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col space-y-1">
           {product.isNew && (
@@ -36,16 +38,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       {/* Product Info */}
       <div className="p-4">
-        <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-black transition-colors duration-200">
+        <Link href={`/product/${product.id}`}>
+          <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-black transition-colors duration-200 cursor-pointer">
             {product.name}
           </h3>
         </Link>
-        
+
         <p className="text-sm text-gray-500 mb-3 capitalize">
           {product.style} • Size {product.sizes.join(', ')} • {product.colors.join(', ')}
         </p>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="font-bold text-lg text-gray-900">${product.price}</span>
@@ -53,9 +55,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
             )}
           </div>
-          
+
           <Link
-            to={`/product/${product.id}`}
+            href={`/product/${product.id}`}
             className="bg-black text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors duration-200"
           >
             View Details

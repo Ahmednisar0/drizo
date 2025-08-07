@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+'use client'; // Required for client-side hooks
+
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 import { useCart } from '../context/CartContext';
 
-const Cart: React.FC = () => {
+const Cart = () => {
   const { state, dispatch } = useCart();
 
   const updateQuantity = (id: string, quantity: number) => {
@@ -26,7 +27,7 @@ const Cart: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h1>
           <p className="text-gray-600 mb-8">Start shopping to add items to your cart</p>
           <Link
-            to="/shop"
+            href="/shop"
             className="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200 inline-flex items-center space-x-2"
           >
             <span>Continue Shopping</span>
@@ -43,7 +44,7 @@ const Cart: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
             <Link
-              to="/shop"
+              href="/shop"
               className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -103,6 +104,7 @@ const Cart: React.FC = () => {
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="p-2 hover:bg-gray-100 transition-colors duration-200"
+                        disabled={item.quantity <= 1}
                       >
                         <Minus className="w-4 h-4" />
                       </button>
@@ -173,13 +175,16 @@ const Cart: React.FC = () => {
                 )}
               </div>
 
-              <button className="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200 mt-6">
+              <Link
+                href="/checkout"
+                className="block w-full bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-200 mt-6 text-center"
+              >
                 Proceed to Checkout
-              </button>
+              </Link>
 
               <div className="mt-4 text-center">
                 <Link
-                  to="/shop"
+                  href="/shop"
                   className="text-sm text-gray-600 hover:text-black transition-colors duration-200"
                 >
                   Continue Shopping

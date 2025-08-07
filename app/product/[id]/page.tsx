@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Heart, ShoppingBag, ArrowLeft, Check, Star, Shield, Truck, RotateCcw } from 'lucide-react';
@@ -8,14 +8,32 @@ import { products } from '../../data/products';
 import { useCart } from '../../context/CartContext';
 
 export default function ProductDetail() {
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
   const router = useRouter();
   const { dispatch } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
 
-  const product = products.find(p => p.id === id);
+  // Handle case where params might be null or undefined
+  if (!params?.id) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center bg-white p-12 rounded-2xl shadow-xl">
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">Product ID not found</h1>
+          <p className="text-gray-600 mb-8">The product ID is missing from the URL.</p>
+          <button
+            onClick={() => router.push('/shop')}
+            className="bg-gradient-to-r from-black to-gray-800 text-white px-8 py-3 rounded-xl hover:from-gray-800 hover:to-black transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            Back to Shop
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const product = products.find(p => p.id === params.id);
 
   if (!product) {
     return (
@@ -72,6 +90,7 @@ export default function ProductDetail() {
                 width={600}
                 height={500}
                 className="w-full h-96 lg:h-[600px] object-cover"
+                priority
               />
               {product.isNew && (
                 <span className="absolute top-6 left-6 bg-gradient-to-r from-black to-gray-800 text-white text-sm px-4 py-2 rounded-full font-semibold shadow-lg">

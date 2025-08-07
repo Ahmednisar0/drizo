@@ -1,19 +1,22 @@
+'use client'; // Required for client-side hooks
+
 import React, { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Filter, SlidersHorizontal, X } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/products';
 
-const Shop: React.FC = () => {
-  const [searchParams] = useSearchParams();
+const Shop = () => {
+  const searchParams = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
-    style: searchParams.get('style') || '',
+    style: searchParams?.get('style') || '',
     priceRange: '',
     sortBy: 'name',
   });
 
-  const searchQuery = searchParams.get('search') || '';
+  const searchQuery = searchParams?.get('search') || '';
 
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
@@ -242,7 +245,13 @@ const Shop: React.FC = () => {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <Link 
+                    href={`/products/${product.id}`} 
+                    key={product.id}
+                    className="hover:opacity-90 transition-opacity"
+                  >
+                    <ProductCard product={product} />
+                  </Link>
                 ))}
               </div>
             ) : (

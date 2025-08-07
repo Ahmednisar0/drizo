@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+'use client';
+
+import { useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { Heart, Minus, Plus, ShoppingBag, ArrowLeft, Check } from 'lucide-react';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 
-const ProductDetail: React.FC = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const ProductDetail = () => {
+  const params = useParams<{ id: string }>();
+  const router = useRouter();
   const { dispatch } = useCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
 
-  const product = products.find(p => p.id === id);
+  // Handle case where params might be null or undefined
+  if (!params?.id) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product ID not found</h1>
+          <button
+            onClick={() => router.push('/shop')}
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+          >
+            Back to Shop
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const product = products.find(p => p.id === params.id);
 
   if (!product) {
     return (
@@ -20,7 +39,7 @@ const ProductDetail: React.FC = () => {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
           <button
-            onClick={() => navigate('/shop')}
+            onClick={() => router.push('/shop')}
             className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
           >
             Back to Shop
@@ -42,7 +61,7 @@ const ProductDetail: React.FC = () => {
 
   const handleBuyNow = () => {
     handleAddToCart();
-    navigate('/cart');
+    router.push('/cart');
   };
 
   return (
@@ -50,7 +69,7 @@ const ProductDetail: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => router.back()}
           className="flex items-center space-x-2 text-gray-600 hover:text-black mb-8 transition-colors duration-200"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -131,7 +150,6 @@ const ProductDetail: React.FC = () => {
             </div>
 
             <div>
-
               <h3 className="font-semibold text-gray-900 mb-3">Available Colors</h3>
               <p className="text-gray-600 mb-6">{product.colors.join(', ')}</p>
             </div>

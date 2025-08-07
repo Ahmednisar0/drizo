@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
@@ -9,17 +12,19 @@ const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const { state } = useCart();
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const filteredSuggestions = products.filter(product =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.style.toLowerCase().includes(searchQuery.toLowerCase())
-  ).slice(0, 5);
+  const filteredSuggestions = products
+    .filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.style.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .slice(0, 5);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
       setShowSuggestions(false);
     }
@@ -28,7 +33,7 @@ const Navbar: React.FC = () => {
   const handleSuggestionClick = (productName: string) => {
     setSearchQuery(productName);
     setShowSuggestions(false);
-    navigate(`/shop?search=${encodeURIComponent(productName)}`);
+    router.push(`/shop?search=${encodeURIComponent(productName)}`);
   };
 
   return (
@@ -36,7 +41,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">PS</span>
             </div>
@@ -45,22 +50,13 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/shop"
-              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
-            >
+            <Link href="/shop" className="text-gray-700 hover:text-black font-medium transition-colors duration-200">
               Shop
             </Link>
-            <Link
-              to="/about"
-              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
-            >
+            <Link href="/about" className="text-gray-700 hover:text-black font-medium transition-colors duration-200">
               About
             </Link>
-            <Link
-              to="/contact"
-              className="text-gray-700 hover:text-black font-medium transition-colors duration-200"
-            >
+            <Link href="/contact" className="text-gray-700 hover:text-black font-medium transition-colors duration-200">
               Contact
             </Link>
           </div>
@@ -112,10 +108,7 @@ const Navbar: React.FC = () => {
           {/* Cart and Mobile Menu */}
           <div className="flex items-center space-x-4">
             {/* Cart */}
-            <Link
-              to="/cart"
-              className="relative p-2 text-gray-700 hover:text-black transition-colors duration-200"
-            >
+            <Link href="/cart" className="relative p-2 text-gray-700 hover:text-black transition-colors duration-200">
               <ShoppingBag className="w-6 h-6" />
               {state.items.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -152,25 +145,13 @@ const Navbar: React.FC = () => {
 
               {/* Mobile Navigation Links */}
               <div className="space-y-2">
-                <Link
-                  to="/shop"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
-                >
+                <Link href="/shop" className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
                   Shop
                 </Link>
-                <Link
-                  to="/about"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
-                >
+                <Link href="/about" className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
                   About
                 </Link>
-                <Link
-                  to="/contact"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200"
-                >
+                <Link href="/contact" className="block py-2 text-gray-700 hover:text-black font-medium transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
                   Contact
                 </Link>
               </div>
