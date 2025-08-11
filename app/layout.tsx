@@ -4,6 +4,7 @@ import './globals.css'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <CartProvider>
           <div className="min-h-screen bg-gray-50">
-            <Navbar />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+              <Navbar />
+            </Suspense>
             <main>{children}</main>
             <Footer />
           </div>
