@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Search, ShoppingBag, Menu, X, Home } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,12 +40,15 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-black to-gray-800 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-              <span className="text-white font-bold text-sm">PS</span>
+          <div className="flex items-center m-4 space-x-3 group">
+           <Image
+          src="/images/pics/drizo.pk.png"  // Logo in /public/images/
+          alt="Company Logo"
+          width={80}
+          height={80}
+          priority  // ensures logo loads quickly
+        />
             </div>
-            <span className="font-bold text-xl text-gray-900 group-hover:text-black transition-colors duration-300">PremiumStep</span>
-          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

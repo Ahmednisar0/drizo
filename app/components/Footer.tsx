@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Instagram, Facebook, Twitter, Mail, Send } from 'lucide-react';
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -21,12 +22,15 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Enhanced Brand */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-black to-gray-800 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-sm">PS</span>
-              </div>
-              <span className="font-bold text-2xl text-gray-900">PremiumStep</span>
-            </div>
+            <div className="flex items-center space-x-3 group">
+                       <Image
+                      src="/images/pics/drizo.pk.png"  // Logo in /public/images/
+                      alt="Company Logo"
+                      width={80}
+                      height={80}
+                      priority  // ensures logo loads quickly
+                    />
+    </div>
             <p className="text-gray-600 text-sm leading-relaxed">
               Elevating your style with premium shoes that combine comfort, quality, and sophistication. 
               Every step matters.

@@ -12,6 +12,7 @@ export default function Shop() {
   const [filters, setFilters] = useState({
     style: searchParams?.get('style') || '',
     priceRange: '',
+    size: '', // ✅ added size filter
     sortBy: 'name',
   });
 
@@ -40,6 +41,13 @@ export default function Shop() {
       filtered = filtered.filter(product => product.price >= min && product.price <= max);
     }
 
+    // ✅ Size filter
+    if (filters.size) {
+      filtered = filtered.filter(product =>
+        product.size.includes(filters.size)
+      );
+    }
+
     // Sort
     filtered.sort((a, b) => {
       switch (filters.sortBy) {
@@ -64,6 +72,7 @@ export default function Shop() {
     setFilters({
       style: '',
       priceRange: '',
+      size: '',   // ✅ reset size too
       sortBy: 'name',
     });
   };
@@ -73,7 +82,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Enhanced Header */}
+        {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             {searchQuery ? `Search Results for "${searchQuery}"` : 'Premium Shoe Collection'}
@@ -101,13 +110,12 @@ export default function Shop() {
             </button>
           </div>
 
-          {/* Enhanced Sidebar Filters */}
+          {/* Sidebar Filters */}
           <div className={`
             lg:w-80 lg:flex-shrink-0
             ${isFilterOpen ? 'fixed inset-0 z-50 bg-white lg:relative lg:inset-auto' : 'hidden lg:block'}
           `}>
             <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 h-fit sticky top-8">
-              {/* Mobile Filter Header */}
               {isFilterOpen && (
                 <div className="lg:hidden flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
                   <h2 className="text-2xl font-bold text-gray-900">Filters</h2>
@@ -166,6 +174,26 @@ export default function Shop() {
                   </select>
                 </div>
 
+                {/* ✅ Size Filter */}
+                <div>
+                  <h3 className="font-bold text-lg text-gray-900 mb-4">Size</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {['6', '7', '8', '9', '10', '11'].map(size => (
+                      <button
+                        key={size}
+                        onClick={() => handleFilterChange('size', filters.size === size ? '' : size)}
+                        className={`px-4 py-2 rounded-xl border transition-all duration-200 font-medium ${
+                          filters.size === size
+                            ? 'bg-black text-white border-black'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Clear Filters */}
                 {activeFiltersCount > 0 && (
                   <button
@@ -181,7 +209,7 @@ export default function Shop() {
 
           {/* Main Content */}
           <div className="flex-1">
-            {/* Enhanced Sort Options */}
+            {/* Sort Options */}
             <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-lg">
               <span className="text-gray-600 font-medium">
                 Showing <span className="font-bold text-black">{filteredProducts.length}</span> results

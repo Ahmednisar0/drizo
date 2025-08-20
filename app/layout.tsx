@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <CartProvider>
           <div className="min-h-screen bg-gray-50">
             <Suspense fallback={<div>Loading navigation...</div>}>
