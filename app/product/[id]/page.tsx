@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Heart, ShoppingBag, ArrowLeft, Check, Star, Shield, Truck, RotateCcw } from 'lucide-react';
+import { Heart, ShoppingBag, ArrowLeft, Check, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '../../data/products';
 import { useCart } from '../../context/CartContext';
 
@@ -14,6 +14,7 @@ export default function ProductDetail() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
 
   // Handle case where params might be null or undefined
   if (!params?.id) {
@@ -53,9 +54,20 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert('Please select a size first');
+      return;
+    }
+    
+    // Create a cart item with the selected size
+    const cartItem = {
+      ...product,
+      selectedSize
+    };
+
     dispatch({
       type: 'ADD_ITEM',
-      payload: product,
+      payload: cartItem,
     });
 
     setShowAddedMessage(true);
@@ -63,9 +75,17 @@ export default function ProductDetail() {
   };
 
   const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert('Please select a size first');
+      return;
+    }
+    
     handleAddToCart();
     router.push('/cart');
   };
+
+  // Get available sizes from product data
+  const availableSizes = Array.isArray(product.size) ? product.size : [product.size];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -148,30 +168,34 @@ export default function ProductDetail() {
                 )}
               </div>
 
-              {/* Rating */}
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <span className="text-gray-600 font-medium">(4.9) • 127 reviews</span>
-              </div>
-
               <div className="mb-8">
                 <p className="text-gray-600 leading-relaxed text-lg">{product.description}</p>
               </div>
 
-              {/* Product Details */}
-              <div className="grid grid-cols-2 gap-6 mb-8">
-                <div className="bg-gray-50 p-4 rounded-2xl">
-                  <h4 className="font-semibold text-gray-900 mb-2">Size</h4>
-                  <p className="text-gray-600 text-lg font-medium">{product.size}</p>
+              {/* Size Selection */}
+              <div className="mb-8">
+                <h4 className="font-semibold text-gray-900 mb-4">Select Size</h4>
+                <div className="flex flex-wrap gap-3">
+                  {availableSizes.map(size => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`py-3 px-6 rounded-xl border-2 text-center transition-all duration-300 ${
+                        selectedSize === size
+                          ? 'border-black bg-black text-white shadow-lg transform scale-105'
+                          : 'border-gray-300 hover:border-black hover:shadow-md'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
                 </div>
-                <div className="bg-gray-50 p-4 rounded-2xl">
-                  <h4 className="font-semibold text-gray-900 mb-2">Color</h4>
-                  <p className="text-gray-600 text-lg font-medium">{product.color}</p>
-                </div>
+              </div>
+
+              {/* Color Info */}
+              <div className="mb-8">
+                <h4 className="font-semibold text-gray-900 mb-2">Color</h4>
+                <p className="text-gray-600 text-lg font-medium">{product.color}</p>
               </div>
 
               {/* Action Buttons */}
@@ -250,11 +274,11 @@ export default function ProductDetail() {
                 
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Star className="w-6 h-6 text-white" />
+                    <Shield className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">5-Star Rated</h4>
-                    <p className="text-gray-600 text-sm">Loved by customers</p>
+                    <h4 className="font-semibold text-gray-900 mb-1">Authentic Product</h4>
+                    <p className="text-gray-600 text-sm">100% genuine materials</p>
                   </div>
                 </div>
               </div>

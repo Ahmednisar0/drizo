@@ -23,16 +23,16 @@ const Footer: React.FC = () => {
           {/* Enhanced Brand */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3 group">
-                       <Image
-                      src="/images/pics/drizo.pk.png"  // Logo in /public/images/
-                      alt="Company Logo"
-                      width={80}
-                      height={80}
-                      priority  // ensures logo loads quickly
-                    />
-    </div>
+              <Image
+                src="/images/pics/drizo.pk.png"  // Logo in /public/images/
+                alt="Drizoo Logo"
+                width={80}
+                height={80}
+                priority  // ensures logo loads quickly
+              />
+            </div>
             <p className="text-gray-600 text-sm leading-relaxed">
-              Elevating your style with premium shoes that combine comfort, quality, and sophistication. 
+              Elevating your style with premium Pakistani footwear that combines comfort, quality, and sophistication. 
               Every step matters.
             </p>
             <div className="flex space-x-4">
@@ -121,7 +121,7 @@ const Footer: React.FC = () => {
         {/* Enhanced Bottom Section */}
         <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm">
-            © 2025 PremiumStep. All rights reserved. Made with ❤️ for shoe lovers.
+            © 2025 Drizoo. All rights reserved. Made with ❤️ for shoe lovers in Pakistan.
           </p>
           
           <div className="flex items-center space-x-6 mt-4 sm:mt-0">
@@ -131,7 +131,7 @@ const Footer: React.FC = () => {
             <a href="#" className="text-gray-600 hover:text-black text-sm transition-colors duration-200">
               Terms of Service
             </a>
-            <a href="mailto:info@premiumstep.com" className="text-gray-600 hover:text-black transition-colors duration-200">
+            <a href="mailto:info@drizoo.com" className="text-gray-600 hover:text-black transition-colors duration-200">
               <Mail className="w-5 h-5" />
             </a>
           </div>

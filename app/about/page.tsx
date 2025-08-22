@@ -36,10 +36,10 @@ export default function About() {
           }}
         ></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-8">About PremiumStep</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-8">About Drizoo</h1>
           <p className="text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
             We're passionate about creating exceptional footwear that combines timeless style, 
-            superior comfort, and uncompromising quality for the modern individual.
+            superior comfort, and uncompromising quality for the modern Pakistani individual.
           </p>
         </div>
       </section>
@@ -52,18 +52,18 @@ export default function About() {
               <h2 className="text-4xl font-bold text-gray-900">Our Story</h2>
               <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
                 <p>
-                  Founded in 2020, PremiumStep emerged from a simple belief: everyone deserves 
+                  Founded in 2020, Drizoo emerged from a simple belief: everyone deserves 
                   shoes that look exceptional and feel incredible. Our journey began when our 
-                  founder noticed a gap in the market for premium footwear that didn't compromise 
+                  founder noticed a gap in the market for premium Pakistani footwear that didn't compromise 
                   on either style or comfort.
                 </p>
                 <p>
-                  Today, we work directly with skilled artisans and use only the finest materials 
+                  Today, we work directly with skilled Pakistani artisans and use only the finest materials 
                   to create shoes that stand the test of time. Each pair is crafted with attention 
                   to detail and a commitment to excellence that has become our signature.
                 </p>
                 <p>
-                  From our headquarters in Pakistan, we've built relationships with customers worldwide who 
+                  From our headquarters in Karachi, we've built relationships with customers across Pakistan who 
                   share our appreciation for quality craftsmanship and timeless design.
                 </p>
               </div>
@@ -116,10 +116,10 @@ export default function About() {
               <div className="w-20 h-20 bg-gradient-to-r from-black to-gray-800 rounded-3xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300">
                 <Heart className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">Sustainable</h3>
+              <h3 className="text-2xl font-bold text-gray-900">Pakistani Craftsmanship</h3>
               <p className="text-gray-600 leading-relaxed">
-                We're committed to responsible sourcing and sustainable practices that protect 
-                our planet for future generations while maintaining quality.
+                We take pride in supporting local artisans and promoting traditional Pakistani 
+                shoemaking techniques with a modern twist.
               </p>
             </div>
 
@@ -159,7 +159,7 @@ export default function About() {
                     </div>
                     <div>
                       <p className="font-bold text-lg text-gray-900">Email</p>
-                      <p className="text-gray-600">info@premiumstep.com</p>
+                      <p className="text-gray-600">info@drizoo.com</p>
                     </div>
                   </div>
 

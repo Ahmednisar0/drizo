@@ -6,6 +6,23 @@ import Image from 'next/image';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
+// Define the type for cart items with selectedSize
+interface CartItemWithSize {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  images: string[];
+  description: string;
+  color: string;
+  isNew?: boolean;
+  quantity: number;
+  selectedSize: string;
+  style: string;
+  category: string;
+}
+
 export default function Cart() {
   const { state, dispatch } = useCart();
 
@@ -69,76 +86,81 @@ export default function Cart() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Enhanced Cart Items */}
           <div className="lg:col-span-2 space-y-6">
-            {state.items.map((item) => (
-              <div key={item.id} className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow duration-300">
-                <div className="flex items-center space-x-6">
-                  {/* Product Image */}
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={item.images[0]}
-                      alt={item.name}
-                      width={120}
-                      height={120}
-                      className="w-28 h-28 object-cover rounded-2xl shadow-lg"
-                    />
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="flex-1">
-                    <h3 className="font-bold text-xl text-gray-900 mb-2">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mb-3 capitalize bg-gray-100 px-3 py-1 rounded-full inline-block">
-                      {item.style} Shoes
-                    </p>
-                    <div className="flex items-center space-x-6 text-sm text-gray-600">
-                      <span className="bg-gray-50 px-3 py-1 rounded-full">Size: {item.size}</span>
-                      <span className="bg-gray-50 px-3 py-1 rounded-full">Color: {item.color}</span>
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className="text-right">
-                    <p className="font-bold text-2xl text-gray-900">PKR {item.price.toLocaleString()}</p>
-                    {item.originalPrice && (
-                      <p className="text-sm text-gray-500 line-through">PKR {item.originalPrice.toLocaleString()}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Quantity and Actions */}
-                <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-200">
-                  <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-600 font-medium">Quantity:</span>
-                    <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden">
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-3 hover:bg-gray-100 transition-colors duration-200"
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="px-6 py-3 font-bold text-lg bg-gray-50">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-3 hover:bg-gray-100 transition-colors duration-200"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-
+            {state.items.map((item) => {
+              // Type assertion to handle the selectedSize property
+              const cartItem = item as unknown as CartItemWithSize;
+              
+              return (
+                <div key={cartItem.id} className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow duration-300">
                   <div className="flex items-center space-x-6">
-                    <span className="font-bold text-xl text-gray-900">
-                      Subtotal: PKR {(item.price * item.quantity).toLocaleString()}
-                    </span>
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="text-red-600 hover:text-red-800 transition-colors duration-200 p-2 hover:bg-red-50 rounded-xl"
-                    >
-                      <Trash2 className="w-6 h-6" />
-                    </button>
+                    {/* Product Image */}
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={cartItem.images[0]}
+                        alt={cartItem.name}
+                        width={120}
+                        height={120}
+                        className="w-28 h-28 object-cover rounded-2xl shadow-lg"
+                      />
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="flex-1">
+                      <h3 className="font-bold text-xl text-gray-900 mb-2">{cartItem.name}</h3>
+                      <p className="text-sm text-gray-500 mb-3 capitalize bg-gray-100 px-3 py-1 rounded-full inline-block">
+                        {cartItem.style} Shoes
+                      </p>
+                      <div className="flex items-center space-x-6 text-sm text-gray-600">
+                        <span className="bg-gray-50 px-3 py-1 rounded-full">Size: {cartItem.selectedSize}</span>
+                        <span className="bg-gray-50 px-3 py-1 rounded-full">Color: {cartItem.color}</span>
+                      </div>
+                    </div>
+
+                    {/* Price */}
+                    <div className="text-right">
+                      <p className="font-bold text-2xl text-gray-900">PKR {cartItem.price.toLocaleString()}</p>
+                      {cartItem.originalPrice && (
+                        <p className="text-sm text-gray-500 line-through">PKR {cartItem.originalPrice.toLocaleString()}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Quantity and Actions */}
+                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-200">
+                    <div className="flex items-center space-x-4">
+                      <span className="text-sm text-gray-600 font-medium">Quantity:</span>
+                      <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden">
+                        <button
+                          onClick={() => updateQuantity(cartItem.id, cartItem.quantity - 1)}
+                          className="p-3 hover:bg-gray-100 transition-colors duration-200"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="px-6 py-3 font-bold text-lg bg-gray-50">{cartItem.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(cartItem.id, cartItem.quantity + 1)}
+                          className="p-3 hover:bg-gray-100 transition-colors duration-200"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-6">
+                      <span className="font-bold text-xl text-gray-900">
+                        Subtotal: PKR {(cartItem.price * cartItem.quantity).toLocaleString()}
+                      </span>
+                      <button
+                        onClick={() => removeItem(cartItem.id)}
+                        className="text-red-600 hover:text-red-800 transition-colors duration-200 p-2 hover:bg-red-50 rounded-xl"
+                      >
+                        <Trash2 className="w-6 h-6" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Enhanced Order Summary */}
