@@ -39,114 +39,90 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-gray-900 to-black py-20 lg:py-32 overflow-hidden">
-        <motion.div 
-          initial="hidden"
-          animate="show"
-          variants={container}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              {/* Trust Badge */}
-              <motion.div variants={item} className="inline-flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-full">
-                <Award className="w-5 h-5 text-gray-300" />
-                <span className="text-sm font-semibold text-gray-300">Premium Quality Guaranteed</span>
-              </motion.div>
-
-              <div className="space-y-6">
-                <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-white">
-                  <span className="text-gray-300">Elevate</span>
-                  <br />
-                  <span className="text-white">Your Step</span>
-                </motion.h1>
-                <motion.div variants={item} className="space-y-4">
-                  <p className="text-2xl md:text-3xl font-semibold text-gray-300">
-                    Premium Shoe Collection
-                  </p>
-                  <p className="text-lg text-gray-400 leading-relaxed max-w-lg">
-                    Style and comfort, curated with precision. Discover shoes that make every step count.
-                  </p>
-                </motion.div>
-              </div>
-
-              {/* Stats */}
-              <motion.div variants={container} className="grid grid-cols-3 gap-6">
-                <motion.div variants={item} className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Users className="w-6 h-6 text-gray-300 mr-2" />
-                    <span className="text-2xl font-bold text-white">5K+</span>
-                  </div>
-                  <p className="text-sm text-gray-400">Happy Customers</p>
-                </motion.div>
-                <motion.div variants={item} className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Sparkles className="w-6 h-6 text-gray-300 mr-2" />
-                    <span className="text-2xl font-bold text-white">100+</span>
-                  </div>
-                  <p className="text-sm text-gray-400">Premium Styles</p>
-                </motion.div>
-                <motion.div variants={item} className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Truck className="w-6 h-6 text-gray-300 mr-2" />
-                    <span className="text-2xl font-bold text-white">24h</span>
-                  </div>
-                  <p className="text-sm text-gray-400">Fast Delivery</p>
-                </motion.div>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div variants={container} className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
-                <motion.div variants={item}>
-                  <Link href="/shop" className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium flex items-center justify-center transition duration-300 group">
-                    <span>Explore Collection</span>
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                  </Link>
-                </motion.div>
-                <motion.div variants={item}>
-                  <Link href="/shop?style=formal" className="bg-transparent border-2 border-gray-400 text-white hover:bg-gray-800 px-6 py-3 rounded-lg font-medium flex items-center justify-center transition duration-300 group">
-                    <span>Premium Formal</span>
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                  </Link>
-                </motion.div>
-              </motion.div>
-            </div>
-
-            {/* Hero Image */}
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="relative overflow-hidden rounded-3xl shadow-2xl"
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-                  alt="Premium Shoes Collection"
-                  width={600}
-                  height={500}
-                  className="w-full h-96 lg:h-[500px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                
-                {/* Price Badge */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="absolute bottom-6 left-6 bg-gray-900/80 backdrop-blur-sm p-4 rounded-2xl border border-gray-700"
-                >
-                  <p className="text-sm text-gray-300 mb-1">Starting from</p>
-                  <p className="text-2xl font-bold text-white">PKR 2,999</p>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          </div>
+  <motion.div 
+    initial="hidden"
+    animate="show"
+    variants={container}
+    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+  >
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="space-y-8">
+        {/* Trust Badge */}
+        <motion.div variants={item} className="inline-flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-full">
+          <Award className="w-5 h-5 text-gray-300" />
+          <span className="text-sm font-semibold text-gray-300">Premium Quality Guaranteed</span>
         </motion.div>
-      </section>
 
+        <div className="space-y-6">
+          <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-white">
+            <span className="text-gray-300">Elevate</span>
+            <br />
+            <span className="text-white">Your Step</span>
+          </motion.h1>
+          <motion.div variants={item} className="space-y-4">
+            <p className="text-2xl md:text-3xl font-semibold text-gray-300">
+              Premium Shoe Collection
+            </p>
+            <p className="text-lg text-gray-400 leading-relaxed max-w-lg">
+              Style and comfort, curated with precision. Discover shoes that make every step count.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Stats */}
+       
+        {/* CTA Buttons */}
+        <motion.div variants={container} className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+          <motion.div variants={item}>
+            <Link href="/shop" className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium flex items-center justify-center transition duration-300 group">
+              <span>Explore Collection</span>
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+          </motion.div>
+          <motion.div variants={item}>
+            <Link href="/shop?style=formal" className="bg-transparent border-2 border-gray-400 text-white hover:bg-gray-800 px-6 py-3 rounded-lg font-medium flex items-center justify-center transition duration-300 group">
+              <span>Premium Formal</span>
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Hero Image */}
+      <motion.div 
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative"
+      >
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="relative overflow-hidden rounded-3xl shadow-2xl"
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+            alt="Premium Shoes Collection"
+            width={600}
+            height={500}
+            className="w-full h-96 lg:h-[500px] object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          
+          {/* Price Badge */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="absolute bottom-6 left-6 bg-gray-900/80 backdrop-blur-sm p-4 rounded-2xl border border-gray-700"
+          >
+            <p className="text-sm text-gray-300 mb-1">Starting from</p>
+            <p className="text-2xl font-bold text-white">PKR 2,999</p>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </motion.div>
+</section>
       {/* Features Section */}
       <section className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

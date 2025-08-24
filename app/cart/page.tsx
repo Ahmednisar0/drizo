@@ -209,7 +209,12 @@ export default function Cart() {
 
               <button className="w-full bg-gradient-to-r from-black to-gray-800 text-white py-4 px-8 rounded-2xl font-bold hover:from-gray-800 hover:to-black transition-all duration-300 mt-8 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center space-x-3">
                 <CreditCard className="w-6 h-6" />
-                <span>Proceed to Checkout</span>
+                <Link
+                  href="/checkout"
+                 
+                >
+                  Proceed To Checkout
+                </Link>
               </button>
 
               <div className="mt-6 text-center">

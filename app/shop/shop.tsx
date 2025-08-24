@@ -138,8 +138,8 @@ export default function Shop() {
                       { value: 'formal', label: 'Formal' },
                       { value: 'casual', label: 'Casual' },
                       { value: 'sports', label: 'Sports' },
-                      { value: 'boots', label: 'Boots' },
-                      { value: 'heels', label: 'Heels' },
+                  
+                     
                     ].map((option) => (
                       <label key={option.value} className="flex items-center space-x-3 cursor-pointer group">
                         <input

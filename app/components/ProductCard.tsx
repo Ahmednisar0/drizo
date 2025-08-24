@@ -64,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.style}
           </p>
           <div className="flex items-center space-x-2 text-xs text-gray-500">
-            <span>Size: {product.size}</span>
+           
             <span>•</span>
             <span>{product.color}</span>
           </div>
