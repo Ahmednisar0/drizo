@@ -27,6 +27,7 @@ export default function Checkout() {
     postalCode: '',
   });
 
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -40,7 +41,9 @@ export default function Checkout() {
     // In a real application, you would process the order here
     console.log('Shipping info submitted:', formData);
     // Redirect to payment page
-    router.push('/payment');
+     e.preventDefault();
+  const query = new URLSearchParams(formData).toString();
+  router.push(`/payment?${query}`);
   };
 
   // Calculate order totals
@@ -55,7 +58,7 @@ export default function Checkout() {
         <div className="mb-8">
           <Link
             href="/cart"
-            className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors duration-200 bg-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl inline-block mb-4"
+            className=" items-center space-x-2 text-gray-600 hover:text-black transition-colors duration-200 bg-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl inline-block mb-4"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="font-medium">Back to Cart</span>

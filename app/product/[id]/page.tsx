@@ -118,7 +118,7 @@ export default function ProductDetail() {
                 alt={product.name}
                 width={600}
                 height={500}
-                className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
+                className="w-full h-80 sm:h-80 md:h-96 lg:h-[600px] object-cover"
                 priority
               />
               {product.isNew && (
